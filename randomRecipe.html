@@ -5,8 +5,115 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        *{
+            /* border: 2px red solid; */
+            background-color: aliceblue;
+
+        }
+        #navbar{
+            display:  flex;
+            justify-content: space-between;
+            padding: 1%;
+            font-size: larger;
+            box-shadow: 0px 2px 2px;
+        }
+        #navbar>div:hover, button:hover{
+            cursor: pointer;
+            color: antiquewhite;
+        }
+        #showData{
+            margin: auto;
+            margin-top: 1%;
+            padding: 2%;
+        }
+    </style>
 </head>
 <body>
+
+    <div id="nav">
+
+    </div>
+    
+    <div id="showData">
+    </div>
     
 </body>
 </html>
+
+<script>
+
+// importing navbar from script----------------
+
+function navbar()
+{
+    return `
+    <div id="navbar">
+        <div id="home"><a href="./home.html">Home</a></div>
+        <div id="recipeOfTheDay"><a href="./recipieOfTheDay.html">Recipe of the Day</a></div>
+        <div id="randomeRecipe"><a href="./randomRecipe.html">Random Recipe</a></div>
+        <div id="searchRecipeBox">
+            <input type="text" name="Search Recipe" id="searchRecipeInput" placeholder="Enter Recipe Name....">
+            <button id="searchRecipe">Search</button>
+        </div>
+    </div>`
+}
+
+// showing data
+let showingData = (data,parent,pageName) =>{
+    
+    data.meals.forEach((el)=>{
+        if(pageName === 'recipeOfTheDay'){
+
+            let box = document.createElement('div')
+
+            let image = document.createElement('img')
+            image.setAttribute('src', el.strMealThumb)
+
+            let h3 =  document.createElement('h3')
+            h3.innerText = el.strMeal
+
+            let p = document.createElement('p')
+            p.textContent = el.strInstructions
+
+            let a = document.createElement('a')
+            a.setAttribute('href', el.strYoutube )
+            a.textContent = 'Link'
+
+            box.append(image,h3,a,p)
+            parent.append(box)
+        }
+        
+        
+    })
+}
+
+
+// getting data-------------------
+        const url = "https://www.themealdb.com/api/json/v1/1/random.php"
+
+
+        let recipeData = async(fullUrl) =>{
+            
+            let res = await fetch(fullUrl)
+
+            let parent = document.getElementById('showData')
+
+            let data = await res.json()
+
+            showingData(data,parent,'recipeOfTheDay')
+            // console.log(data)
+        }
+
+
+// calling functions-----------------
+document.getElementById('nav').innerHTML = navbar()
+
+recipeData(url)
+
+
+
+
+
+
+</script>
