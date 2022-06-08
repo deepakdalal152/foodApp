@@ -1,6 +1,7 @@
 
 function navbar()
 {
+    console.log("Test")
     return `    <div id="navbar">
                     <div id="recipeOfTheDay">Recipe of the Day</div>
                     <div id="randomeRecipe"> Random Recipe</div>
